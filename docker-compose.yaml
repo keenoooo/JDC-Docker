@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  ql:
+    image: whyour/qinglong
+    container_name: ql
+    ports:
+      - 127.0.0.1:5700:5700
+    volumes:
+      - ./config:/ql/config
+      - ./log:/ql/log
+      - ./db:/ql/db
+      - ./scripts:/ql/scripts
+      - ./jbot:/ql/jbot
+    restart: unless-stopped
+    logging: 
+      driver: "json-file"
+      options: 
+        max-size: "10m"
+  
+  jdc:
+    image: ghcr.io/apocalypsor/jdc
+    container_name: ql-jdc
+    ports:
+      - 127.0.0.1:5701:5701
+    volumes:
+      - ./:/JDC/ql
+      - ./jdc/config.toml:/JDC/config.toml
+    restart: unless-stopped
+    logging: 
+      driver: "json-file"
+      options: 
+        max-size: "10m"
